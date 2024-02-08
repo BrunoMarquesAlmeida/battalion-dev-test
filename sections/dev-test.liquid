@@ -1,5 +1,5 @@
-<h1 class="compare-products__title">Which Product is right for you?</h1>
-<p class="compare-products__subtitle">Compare our models and find your perfect Product</p>
+<h1 class="compare-products__title">{{ section.settings.title }}</h1>
+<p class="compare-products__subtitle">{{ section.settings.subtitle }}</p>
 <a class="compare-products__hyperlink" href="#">See all models</a>
 
 {% stylesheet %}
@@ -42,11 +42,24 @@
   "settings": [
     {
       "type": "text",
-      "id": "Title",
+      "id": "title",
       "label": "Title"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle"
     }
   ],
-  "presets": [{ "name": "Battalion Section Test" }],
+  "presets": [
+    {
+      "name": "Battalion Section Test",
+      "settings": {
+        "title": "Sample title",
+        "subtitle": "Sample subtitle"
+      }
+    }
+  ],
   "class": "compare-products"
 }
 {% endschema %}
