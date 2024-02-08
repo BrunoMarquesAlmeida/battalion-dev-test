@@ -6,26 +6,21 @@
 
 <div class="compare-products__card-wrapper">
   <div class="compare-products__card">
-    <select>
-      <option>Variants</option>
-      <option>Variants</option>
-      <option>Variants</option>
-      <option>Variants</option>
-      <option>Variants</option>
-      <option>Variants</option>
-      <option>Variants</option>
-      <option>Variants</option>
-      <option>Variants</option>
+    <select onchange="onVariantChange(1, this.value)">
+      {% for variant in section.settings.product.variants %}
+        <option value="{{ forloop.index }}">{{ variant.title }} title</option>
+      {% endfor %}
     </select>
 
     <img
       class="compare-products__card__image"
       width="342"
       height="195"
-      src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fs3.amazonaws.com%2Fstockx-sneaker-analysis%2Fwp-content%2Fuploads%2F2017%2F10%2FNike-SB-Dunk-High-Future-Court-Red.png&f=1&nofb=1&ipt=facf74e55234399e72841f4e55c705a464dffacf633b4f3ca521b21d41024df8&ipo=images"
+      ^
+      src="{{ current_variant.image | image_url:  width: 432}}"
     >
 
-    <p class="compare-products__card__title">Product Title</p>
+    <p class="compare-products__card__title" id="product-title-1">Product Title</p>
 
     <p class="compare-products__card__subtitle">Product Subtitle</p>
 
@@ -51,11 +46,21 @@
     </a>
   </div>
 </div>
-{{ section.settings.product.title }}
+
+<script>
+  const variants = {{ section.settings.product.variants | json }};
+
+  console.log({{ section.settings.product.selected_or_first_available_variant }})
+
+  function onVariantChange(cardNumber, index){
+    document.getElementById("product-title-" + cardNumber).innerText = variants[index - 1].title;
+  }
+</script>
 
 {% stylesheet %}
   .compare-products {
     letter-spacing: -0.01em;
+    padding-bottom: 70px;
   }
 
   .compare-products__title {
@@ -136,9 +141,6 @@
   .compare-products__card,
   .compare-products__card-wrapper {
     display: flex;
-    p {
-      margin: 0;
-    }
   }
 
   .compare-products__card__title {
@@ -187,6 +189,7 @@
   .compare-products__card__price-max {
     opacity: 60%;
     font-weight: 400;
+    text-decoration: line-through;
   }
 
   .compare-products__buy-btn {
@@ -203,6 +206,13 @@
     text-align: center;
     color: #fff;
     letter-spacing: -0.5%;
+  }
+
+  .compare-products__buy-btn,
+  .compare-products__card__savings {
+    p {
+      margin: 0;
+    }
   }
 {% endstylesheet %}
 
