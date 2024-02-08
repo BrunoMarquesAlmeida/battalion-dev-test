@@ -1,13 +1,67 @@
 <h1 class="compare-products__title">{{ section.settings.title }}</h1>
 <p class="compare-products__subtitle">{{ section.settings.subtitle }}</p>
-<a class="compare-products__hyperlink" href="{{  section.settings.hyperlink }}">See all models</a>
+<div class="compare-products__hyperlink">
+  <a href="{{  section.settings.hyperlink }}">See all models</a>
+</div>
+
+<div class="compare-products__card-wrapper">
+  <div class="compare-products__card">
+    <select>
+      <option>Variants</option>
+      <option>Variants</option>
+      <option>Variants</option>
+      <option>Variants</option>
+      <option>Variants</option>
+      <option>Variants</option>
+      <option>Variants</option>
+      <option>Variants</option>
+      <option>Variants</option>
+    </select>
+
+    <img
+      class="compare-products__card__image"
+      width="342"
+      height="195"
+      src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fs3.amazonaws.com%2Fstockx-sneaker-analysis%2Fwp-content%2Fuploads%2F2017%2F10%2FNike-SB-Dunk-High-Future-Court-Red.png&f=1&nofb=1&ipt=facf74e55234399e72841f4e55c705a464dffacf633b4f3ca521b21d41024df8&ipo=images"
+    >
+
+    <p class="compare-products__card__title">Product Title</p>
+
+    <p class="compare-products__card__subtitle">Product Subtitle</p>
+
+    <div class="compare-products__card__savings">
+      <p>Savings value</p>
+    </div>
+
+    <div class="compare-products__card__prices">
+      <span class="compare-products__card__price-min">123</span>
+      <span class="compare-products__card__price-max">321</span>
+    </div>
+
+    <a href="#" class="compare-products__buy-btn">
+      <p>Buy now</p>
+    </a>
+
+    <hr>
+
+    <hr>
+
+    <a href="#" class="compare-products__buy-btn">
+      <p>Buy now</p>
+    </a>
+  </div>
+</div>
+{{ section.settings.product.title }}
 
 {% stylesheet %}
+  .compare-products {
+    letter-spacing: -0.01em;
+  }
+
   .compare-products__title {
     font-size: 48px;
     font-weight: 700;
     line-height: 57px;
-    color: #252525;
 
     margin: 112px 0 21px;
   }
@@ -17,10 +71,13 @@
     font-weight: 400;
     line-height: 29px;
     opacity: 60%;
+
+    margin-bottom: 17px;
   }
 
   .compare-products__hyperlink {
-    display: block;
+    display: flex;
+    justify-content: center;
 
     font-size: 14px;
     font-weight: 700;
@@ -29,10 +86,123 @@
 
   .compare-products__subtitle,
   .compare-products__title,
-  .compare-products__hyperlink {
+  .compare-products__hyperlink,
+  .compare-products__card__title,
+  .compare-products__card__subtitle,
+  .compare-products__card__prices {
     text-align: center;
-    letter-spacing: -0.01em;
     color: #252525;
+  }
+
+  .compare-products__card-wrapper {
+    margin-top: 60px;
+    justify-content: center;
+  }
+
+  .compare-products__card {
+    max-width: 400px;
+
+    select {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 60px;
+      text-align: left;
+
+      width: 400px;
+
+      background-color: unset;
+
+      border: 1px solid #dedede;
+      border-radius: 8px;
+      padding: 18px 20px;
+    }
+  }
+
+  .compare-products__card {
+    flex-flow: column;
+    align-items: center;
+
+    hr {
+      border-bottom: 1px solid #dedede;
+      width: 100%;
+      margin: 46px 0;
+    }
+  }
+
+  .compare-products__card__image {
+    margin-top: 40px;
+  }
+
+  .compare-products__card,
+  .compare-products__card-wrapper {
+    display: flex;
+    p {
+      margin: 0;
+    }
+  }
+
+  .compare-products__card__title {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 32px;
+
+    margin: 75px 0 0;
+  }
+
+  .compare-products__card__subtitle {
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 24px;
+    opacity: 60%;
+
+    margin: 5px 0 0;
+  }
+
+  .compare-products__card__savings {
+    background: #4062ff;
+    border-radius: 2px;
+    border: 1px solid #4062ff;
+    padding: 4px 9px;
+    margin-top: 18px;
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 17px;
+    text-align: center;
+
+    color: #fff;
+  }
+
+  .compare-products__card__prices {
+    font-size: 17px;
+
+    line-height: 24px;
+    margin: 8px 0 0;
+  }
+
+  .compare-products__card__price-min {
+    font-weight: 700;
+  }
+
+  .compare-products__card__price-max {
+    opacity: 60%;
+    font-weight: 400;
+  }
+
+  .compare-products__buy-btn {
+    background: #252525;
+    border: 0 solid #252525;
+    border-radius: 200px;
+    padding: 18px 30px;
+    margin: 40px 0 0;
+
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 17px;
+    text-align: center;
+    color: #fff;
+    letter-spacing: -0.5%;
   }
 {% endstylesheet %}
 
