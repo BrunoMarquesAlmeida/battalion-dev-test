@@ -1,0 +1,46 @@
+<h1 class="compare-products__title">Which Product is right for you?</h1>
+<p class="compare-products__subtitle">Compare our models and find your perfect Product</p>
+<a class="compare-products__hyperlink" href="#">See all models</a>
+
+{% stylesheet %}
+  .compare-products__title {
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 57px;
+    color: #252525;
+
+    margin: 112px 0 21px;
+  }
+
+  .compare-products__subtitle {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 29px;
+    opacity: 60%;
+  }
+
+  .compare-products__hyperlink {
+    display: block;
+
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 17px;
+  }
+
+  .compare-products__subtitle,
+  .compare-products__title,
+  .compare-products__hyperlink {
+    text-align: center;
+    letter-spacing: -0.01em;
+    color: #252525;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Compare Products",
+  "settings": [],
+  "presets": [{ "name": "Battalion Section Test" }],
+  "class": "compare-products"
+}
+{% endschema %}
