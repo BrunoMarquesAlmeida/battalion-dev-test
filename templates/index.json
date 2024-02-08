@@ -1,12 +1,14 @@
 {
   "sections": {
-    "dev_test_8JAiq4": {
+    "dev_test_7nCrgi": {
       "type": "dev-test",
       "settings": {
+        "title": "Sample title",
+        "subtitle": "Sample subtitle"
       }
     }
   },
   "order": [
-    "dev_test_8JAiq4"
+    "dev_test_7nCrgi"
   ]
 }
