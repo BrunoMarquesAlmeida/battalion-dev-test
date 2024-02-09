@@ -72,7 +72,7 @@
 
     document.getElementById("product-title-" + cardVersion).innerText = variant.title;
     document.getElementById("product-subtitle-" + cardVersion).innerText =  metaData[index].subtitle;
-    document.getElementById("product-img-" + cardVersion).src = variant.featured_image.src.replace(/(.*)\.jpg(.*)/, "$1_342x195_crop_center.jpg$2");
+    document.getElementById("product-img-" + cardVersion).src = variant.featured_image.src.replace(/(.*)(\.jpg|\.png|\.webp)(.*)/, "$1_342x195_crop_center$2$3");
     document.getElementById("product-savings-" + cardVersion).innerText = `Save $${(variant.compare_at_price - variant.price) / 100}`;
     document.getElementById("product-price-" + cardVersion).innerText = `$${variant.price / 100}`
     document.getElementById("product-compare-price-" + cardVersion).innerText = `$${variant.compare_at_price / 100}`
