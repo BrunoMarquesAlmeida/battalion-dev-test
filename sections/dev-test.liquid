@@ -46,11 +46,20 @@
   </div>
 </div>
 
+{% capture 'meta_data' %}
+{% for variant in section.settings.product.variants %}
+  {{ forloop.index }}: {{ variant.metafields.custom | json }}
+  {% unless forloop.last %},{% endunless %}
+{% endfor %}
+{% endcapture %}
+
 <script>
-  {%- assign firstAvailableVariant = section.settings.product.selected_or_first_available_variant -%}
+  {%- assign firstAvailableVariant = section.settings.product.first_available_variant -%}
   const variants = {{ section.settings.product.variants | json }};
+  const metaData = { {{ meta_data }} }
 
   document.getElementById("product-title-l").innerText = "{{ firstAvailableVariant.title }}";
+  document.getElementById("product-subtitle-l").innerText = "{{ firstAvailableVariant.metafields.custom.subtitle }}"
   document.getElementById("product-img-l").src = "{{ firstAvailableVariant.featured_image.src | img_url:  "342x195",  crop: 'center'  }}"
   document.getElementById("product-savings-l").innerText = "Save ${{ firstAvailableVariant.compare_at_price | minus: firstAvailableVariant.price | divided_by: 100.00}}"
   document.getElementById("product-price-l").innerText = "${{ firstAvailableVariant.price | divided_by: 100.00 }}"
@@ -62,6 +71,7 @@
     const variant = variants[index - 1]
 
     document.getElementById("product-title-" + cardVersion).innerText = variant.title;
+    document.getElementById("product-subtitle-" + cardVersion).innerText =  metaData[index].subtitle;
     document.getElementById("product-img-" + cardVersion).src = variant.featured_image.src.replace(/(.*)\.jpg(.*)/, "$1_342x195_crop_center.jpg$2");
     document.getElementById("product-savings-" + cardVersion).innerText = `Save $${(variant.compare_at_price - variant.price) / 100}`;
     document.getElementById("product-price-" + cardVersion).innerText = `$${variant.price / 100}`
