@@ -8,7 +8,7 @@
   <div class="compare-products__card">
     <select onchange="onVariantChange(1, this.value)">
       {% for variant in section.settings.product.variants %}
-        <option value="{{ forloop.index }}">{{ variant.title }} title</option>
+        <option value="{{ forloop.index }}">{{ variant.title }}</option>
       {% endfor %}
     </select>
 
@@ -16,13 +16,12 @@
       class="compare-products__card__image"
       width="342"
       height="195"
-      ^
-      src="{{ current_variant.image | image_url:  width: 432}}"
+      id="product-img-1"
     >
 
     <p class="compare-products__card__title" id="product-title-1">Product Title</p>
 
-    <p class="compare-products__card__subtitle">Product Subtitle</p>
+    <p class="compare-products__card__subtitle" id="product-subtitle-1">Product Subtitle</p>
 
     <div class="compare-products__card__savings">
       <p>Savings value</p>
@@ -48,12 +47,15 @@
 </div>
 
 <script>
+  {%- assign firstAvailableVariant = section.settings.product.selected_or_first_available_variant -%}
   const variants = {{ section.settings.product.variants | json }};
 
-  console.log({{ section.settings.product.selected_or_first_available_variant }})
+  document.getElementById("product-title-1").innerText = "{{ firstAvailableVariant.title }}";
+  document.getElementById("product-img-1").src = "{{ firstAvailableVariant.featured_image.src | img_url:  "342x195",  crop: 'center'  }}"
 
   function onVariantChange(cardNumber, index){
     document.getElementById("product-title-" + cardNumber).innerText = variants[index - 1].title;
+    document.getElementById("product-img-1").src = variants[index - 1].featured_image.src.replace(/(.*)\.jpg(.*)/, "$1_342x195_crop_center.jpg$2");
   }
 </script>
 
