@@ -1,13 +1,96 @@
 <h1 class="compare-products__title">{{ section.settings.title }}</h1>
 <p class="compare-products__subtitle">{{ section.settings.subtitle }}</p>
-<a class="compare-products__hyperlink" href="{{  section.settings.hyperlink }}">See all models</a>
+<div class="compare-products__hyperlink">
+  <a href="{{  section.settings.hyperlink }}">See all models</a>
+</div>
+
+<div class="compare-products__card-wrapper">
+  <div class="compare-products__card">
+    <select onchange="onVariantChange('l', this.value)">
+      {% for variant in section.settings.product.variants %}
+        <option value="{{ forloop.index }}">{{ variant.title }}</option>
+      {% endfor %}
+    </select>
+
+    <img
+      class="compare-products__card__image"
+      width="342"
+      height="195"
+      id="product-img-l"
+    >
+
+    <p class="compare-products__card__title" id="product-title-l">Product Title</p>
+
+    <p class="compare-products__card__subtitle" id="product-subtitle-l">Product Subtitle</p>
+
+    <div class="compare-products__card__savings" id="product-savings-l">
+      <p>Savings value</p>
+    </div>
+
+    <div class="compare-products__card__prices">
+      <span class="compare-products__card__price-min" id="product-price-l">123</span>
+      <span class="compare-products__card__price-max" id="product-compare-price-l">321</span>
+    </div>
+
+    <a href="#" class="compare-products__buy-btn" id="buy-btn-1-l">
+      <p>Buy now</p>
+    </a>
+
+    <hr>
+
+    <hr>
+
+    <a href="#" class="compare-products__buy-btn" id="buy-btn-2-l">
+      <p>Buy now</p>
+    </a>
+  </div>
+</div>
+
+{% capture 'meta_data' %}
+{% for variant in section.settings.product.variants %}
+  {{ forloop.index }}: {{ variant.metafields.custom | json }}
+  {% unless forloop.last %},{% endunless %}
+{% endfor %}
+{% endcapture %}
+
+<script>
+  {%- assign firstAvailableVariant = section.settings.product.first_available_variant -%}
+  const variants = {{ section.settings.product.variants | json }};
+  const metaData = { {{ meta_data }} }
+
+  document.getElementById("product-title-l").innerText = "{{ firstAvailableVariant.title }}";
+  document.getElementById("product-subtitle-l").innerText = "{{ firstAvailableVariant.metafields.custom.subtitle }}"
+  document.getElementById("product-img-l").src = "{{ firstAvailableVariant.featured_image.src | img_url:  "342x195",  crop: 'center'  }}"
+  document.getElementById("product-savings-l").innerText = "Save ${{ firstAvailableVariant.compare_at_price | minus: firstAvailableVariant.price | divided_by: 100.00}}"
+  document.getElementById("product-price-l").innerText = "${{ firstAvailableVariant.price | divided_by: 100.00 }}"
+  document.getElementById("product-compare-price-l").innerText = "${{ firstAvailableVariant.compare_at_price | divided_by: 100.00 }}"
+  document.getElementById("buy-btn-1-l").href = "{{ section.settings.product.url }}?variant={{ firstAvailableVariant.id }}"
+  document.getElementById("buy-btn-2-l").href = "{{ section.settings.product.url }}?variant={{ firstAvailableVariant.id }}"
+
+  function onVariantChange(cardVersion, index){
+    const variant = variants[index - 1]
+
+    document.getElementById("product-title-" + cardVersion).innerText = variant.title;
+    document.getElementById("product-subtitle-" + cardVersion).innerText =  metaData[index].subtitle;
+    document.getElementById("product-img-" + cardVersion).src = variant.featured_image.src.replace(/(.*)(\.jpg|\.png|\.webp)(.*)/, "$1_342x195_crop_center$2$3");
+    document.getElementById("product-savings-" + cardVersion).innerText = `Save $${(variant.compare_at_price - variant.price) / 100}`;
+    document.getElementById("product-price-" + cardVersion).innerText = `$${variant.price / 100}`
+    document.getElementById("product-compare-price-" + cardVersion).innerText = `$${variant.compare_at_price / 100}`
+    document.getElementById("buy-btn-1-" + cardVersion).href = `{{ section.settings.product.url }}?variant=${variant.id}`
+    document.getElementById("buy-btn-2-" + cardVersion).href = `{{ section.settings.product.url }}?variant=${variant.id}`
+  }
+</script>
 
 {% stylesheet %}
+  .compare-products {
+    letter-spacing: -0.01em;
+    padding-bottom: 70px;
+  }
+
   .compare-products__title {
     font-size: 48px;
     font-weight: 700;
     line-height: 57px;
-    color: #252525;
 
     margin: 112px 0 21px;
   }
@@ -17,10 +100,13 @@
     font-weight: 400;
     line-height: 29px;
     opacity: 60%;
+
+    margin-bottom: 17px;
   }
 
   .compare-products__hyperlink {
-    display: block;
+    display: flex;
+    justify-content: center;
 
     font-size: 14px;
     font-weight: 700;
@@ -29,10 +115,128 @@
 
   .compare-products__subtitle,
   .compare-products__title,
-  .compare-products__hyperlink {
+  .compare-products__hyperlink,
+  .compare-products__card__title,
+  .compare-products__card__subtitle,
+  .compare-products__card__prices {
     text-align: center;
-    letter-spacing: -0.01em;
     color: #252525;
+  }
+
+  .compare-products__card-wrapper {
+    margin-top: 60px;
+    justify-content: center;
+  }
+
+  .compare-products__card {
+    max-width: 400px;
+
+    select {
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 60px;
+      text-align: left;
+
+      width: 400px;
+
+      background-color: unset;
+
+      border: 1px solid #dedede;
+      border-radius: 8px;
+      padding: 18px 20px;
+    }
+  }
+
+  .compare-products__card {
+    flex-flow: column;
+    align-items: center;
+
+    hr {
+      border-bottom: 1px solid #dedede;
+      width: 100%;
+      margin: 46px 0;
+    }
+  }
+
+  .compare-products__card__image {
+    margin-top: 40px;
+  }
+
+  .compare-products__card,
+  .compare-products__card-wrapper {
+    display: flex;
+  }
+
+  .compare-products__card__title {
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 32px;
+
+    margin: 75px 0 0;
+  }
+
+  .compare-products__card__subtitle {
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 24px;
+    opacity: 60%;
+
+    margin: 5px 0 0;
+  }
+
+  .compare-products__card__savings {
+    background: #4062ff;
+    border-radius: 2px;
+    border: 1px solid #4062ff;
+    padding: 4px 9px;
+    margin-top: 18px;
+
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 17px;
+    text-align: center;
+
+    color: #fff;
+  }
+
+  .compare-products__card__prices {
+    font-size: 17px;
+
+    line-height: 24px;
+    margin: 8px 0 0;
+  }
+
+  .compare-products__card__price-min {
+    font-weight: 700;
+  }
+
+  .compare-products__card__price-max {
+    opacity: 60%;
+    font-weight: 400;
+    text-decoration: line-through;
+  }
+
+  .compare-products__buy-btn {
+    background: #252525;
+    border: 0 solid #252525;
+    border-radius: 200px;
+    padding: 18px 30px;
+    margin: 40px 0 0;
+
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 17px;
+    text-align: center;
+    color: #fff;
+    letter-spacing: -0.5%;
+  }
+
+  .compare-products__buy-btn,
+  .compare-products__card__savings {
+    p {
+      margin: 0;
+    }
   }
 {% endstylesheet %}
 
