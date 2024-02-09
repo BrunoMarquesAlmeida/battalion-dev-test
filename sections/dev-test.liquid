@@ -6,7 +6,7 @@
 
 <div class="compare-products__card-wrapper">
   <div class="compare-products__card">
-    <select onchange="onVariantChange(1, this.value)">
+    <select onchange="onVariantChange('l', this.value)">
       {% for variant in section.settings.product.variants %}
         <option value="{{ forloop.index }}">{{ variant.title }}</option>
       {% endfor %}
@@ -16,23 +16,23 @@
       class="compare-products__card__image"
       width="342"
       height="195"
-      id="product-img-1"
+      id="product-img-l"
     >
 
-    <p class="compare-products__card__title" id="product-title-1">Product Title</p>
+    <p class="compare-products__card__title" id="product-title-l">Product Title</p>
 
-    <p class="compare-products__card__subtitle" id="product-subtitle-1">Product Subtitle</p>
+    <p class="compare-products__card__subtitle" id="product-subtitle-l">Product Subtitle</p>
 
-    <div class="compare-products__card__savings">
+    <div class="compare-products__card__savings" id="product-savings-l">
       <p>Savings value</p>
     </div>
 
     <div class="compare-products__card__prices">
-      <span class="compare-products__card__price-min">123</span>
-      <span class="compare-products__card__price-max">321</span>
+      <span class="compare-products__card__price-min" id="product-price-l">123</span>
+      <span class="compare-products__card__price-max" id="product-compare-price-l">321</span>
     </div>
 
-    <a href="#" class="compare-products__buy-btn">
+    <a href="#" class="compare-products__buy-btn" id="buy-btn-1-l">
       <p>Buy now</p>
     </a>
 
@@ -40,7 +40,7 @@
 
     <hr>
 
-    <a href="#" class="compare-products__buy-btn">
+    <a href="#" class="compare-products__buy-btn" id="buy-btn-2-l">
       <p>Buy now</p>
     </a>
   </div>
@@ -50,12 +50,24 @@
   {%- assign firstAvailableVariant = section.settings.product.selected_or_first_available_variant -%}
   const variants = {{ section.settings.product.variants | json }};
 
-  document.getElementById("product-title-1").innerText = "{{ firstAvailableVariant.title }}";
-  document.getElementById("product-img-1").src = "{{ firstAvailableVariant.featured_image.src | img_url:  "342x195",  crop: 'center'  }}"
+  document.getElementById("product-title-l").innerText = "{{ firstAvailableVariant.title }}";
+  document.getElementById("product-img-l").src = "{{ firstAvailableVariant.featured_image.src | img_url:  "342x195",  crop: 'center'  }}"
+  document.getElementById("product-savings-l").innerText = "Save ${{ firstAvailableVariant.compare_at_price | minus: firstAvailableVariant.price | divided_by: 100.00}}"
+  document.getElementById("product-price-l").innerText = "${{ firstAvailableVariant.price | divided_by: 100.00 }}"
+  document.getElementById("product-compare-price-l").innerText = "${{ firstAvailableVariant.compare_at_price | divided_by: 100.00 }}"
+  document.getElementById("buy-btn-1-l").href = "{{ section.settings.product.url }}?variant={{ firstAvailableVariant.id }}"
+  document.getElementById("buy-btn-2-l").href = "{{ section.settings.product.url }}?variant={{ firstAvailableVariant.id }}"
 
-  function onVariantChange(cardNumber, index){
-    document.getElementById("product-title-" + cardNumber).innerText = variants[index - 1].title;
-    document.getElementById("product-img-1").src = variants[index - 1].featured_image.src.replace(/(.*)\.jpg(.*)/, "$1_342x195_crop_center.jpg$2");
+  function onVariantChange(cardVersion, index){
+    const variant = variants[index - 1]
+
+    document.getElementById("product-title-" + cardVersion).innerText = variant.title;
+    document.getElementById("product-img-" + cardVersion).src = variant.featured_image.src.replace(/(.*)\.jpg(.*)/, "$1_342x195_crop_center.jpg$2");
+    document.getElementById("product-savings-" + cardVersion).innerText = `Save $${(variant.compare_at_price - variant.price) / 100}`;
+    document.getElementById("product-price-" + cardVersion).innerText = `$${variant.price / 100}`
+    document.getElementById("product-compare-price-" + cardVersion).innerText = `$${variant.compare_at_price / 100}`
+    document.getElementById("buy-btn-1-" + cardVersion).href = `{{ section.settings.product.url }}?variant=${variant.id}`
+    document.getElementById("buy-btn-2-" + cardVersion).href = `{{ section.settings.product.url }}?variant=${variant.id}`
   }
 </script>
 
