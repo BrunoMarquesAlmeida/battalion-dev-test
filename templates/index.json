@@ -4,7 +4,9 @@
       "type": "dev-test",
       "settings": {
         "title": "Sample title",
-        "subtitle": "Sample subtitle"
+        "subtitle": "Sample subtitle",
+        "hyperlink": "shopify:\/\/collections",
+        "product": "nike-air-force-blue"
       }
     }
   },
