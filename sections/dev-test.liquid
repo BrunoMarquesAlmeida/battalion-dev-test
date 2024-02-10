@@ -72,20 +72,88 @@
       {% endif %}
     </div>
 
-    {% comment %}
-      <div class="compare-products__card__spec">
-        <img src="https://cdn.shopify.com/s/files/1/0585/9482/0170/files/icon_snowflake.png?v=1707497347">
-        <p class="compare-products__card__spec-title">Title</p>
-        <p class="compare-products__card__spec-desc">Description</p>
-      </div>
-    {% endcomment %}
-
     <hr>
 
     <a
       href="{{ section.settings.product.url }}?variant={{ firstAvailableVariant.id }}"
       class="compare-products__buy-btn"
       id="buy-btn-2-l"
+    >
+      <p>Buy now</p>
+    </a>
+  </div>
+
+  <div class="compare-products__card">
+    <select onchange="onVariantChange('r', this.value)">
+      {% for variant in section.settings.product.variants %}
+        <option value="{{ forloop.index }}">{{ variant.title }}</option>
+      {% endfor %}
+    </select>
+
+    <img
+      class="compare-products__card__image"
+      width="342"
+      height="195"
+      id="product-img-r"
+      src="{{ firstAvailableVariant.featured_image.src | img_url:  "342x195",  crop: 'center'  }}"
+    >
+
+    <p class="compare-products__card__title" id="product-title-r">{{ firstAvailableVariant.title }}</p>
+
+    <p class="compare-products__card__subtitle" id="product-subtitle-r">
+      {{ firstAvailableVariant.metafields.custom.subtitle }}
+    </p>
+
+    <div class="compare-products__card__savings" id="product-savings-r">
+      <p>Save {{ firstAvailableVariant.compare_at_price | minus: firstAvailableVariant.price | money }}</p>
+    </div>
+
+    <div class="compare-products__card__prices">
+      <span class="compare-products__card__price-min" id="product-price-r">
+        {{- firstAvailableVariant.price | money -}}
+      </span>
+      <span class="compare-products__card__price-max" id="product-compare-price-r">
+        {{- firstAvailableVariant.compare_at_price | money -}}
+      </span>
+    </div>
+
+    <a
+      href="{{ section.settings.product.url }}?variant={{ firstAvailableVariant.id }}"
+      class="compare-products__buy-btn"
+      id="buy-btn-1-r"
+    >
+      <p>Buy now</p>
+    </a>
+
+    <hr>
+
+    <div id="specs-r">
+      {% assign spec_list = section.settings.product.first_available_variant.metafields.custom.spec_list.value %}
+      {% if spec_list %}
+        {% for spec in spec_list %}
+          <div class="compare-products__card__spec">
+            {% if spec.image %}
+              <img src="{{ spec.image | img_url: 'medium' }}">
+            {% endif %}
+
+            {% if spec.title %}
+              <p class="compare-products__card__spec-title">{{ spec.title }}</p>
+            {% endif %}
+
+            {% if spec.desc %}
+              <p class="compare-products__card__spec-desc">{{ spec.desc }}</p>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
+    <hr>
+
+    <a
+      href="{{ section.settings.product.url }}?variant={{ firstAvailableVariant.id }}"
+      class="compare-products__buy-btn"
+      id="buy-btn-2-r"
     >
       <p>Buy now</p>
     </a>
@@ -235,6 +303,10 @@
       width: 100%;
       margin: 46px 0 0;
     }
+  }
+
+  .compare-products__card:first-child {
+    margin-right: 40px;
   }
 
   .compare-products__card__image {
