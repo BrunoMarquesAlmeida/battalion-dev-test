@@ -180,8 +180,6 @@
   const variants = {{ section.settings.product.variants | json }};
   const metaData = { {{ meta_data }} }  
 
-  console.log(metaData) 
-
   function onVariantChange(cardVersion, index){
     const variant = variants[index - 1]
 
@@ -199,8 +197,6 @@
     document.getElementById("specs-" + cardVersion).innerHTML = "";
 
     for({title, desc, image} of metaData[index].spec_list){
-      console.log(title, desc, image)
-
       const card = document.createElement("div")
       card.className = "compare-products__card__spec"
       document.getElementById("specs-" + cardVersion).append(card)
