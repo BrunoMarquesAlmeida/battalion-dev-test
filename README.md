@@ -1,5 +1,5 @@
 <h1 align="center">Compare Products</h1>
-<h2 align="center">Custom Shopify theme section</h2>
+Custom Shopify theme section
 
 <!-- <div align="center">
   <h3>
