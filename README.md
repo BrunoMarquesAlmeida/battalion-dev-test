@@ -1,4 +1,5 @@
 <h1 align="center">Compare Products</h1>
+<h2 align="center">Custom Shopify theme section</h2>
 
 <!-- <div align="center">
   <h3>
@@ -17,7 +18,6 @@
   - [Built With](#built-with)
 - [Features](#features)
 - [How to use](#how-to-use)
-- [Acknowledgements](#acknowledgements)
 
 <!-- OVERVIEW -->
 
